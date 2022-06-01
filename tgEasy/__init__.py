@@ -102,7 +102,6 @@ class tgClient(Methods, Scaffold):
                 Config.LOGS, "pyrogram.Client Started")
         except pyrogram.errors.exceptions.bad_request_400.PeerIdInvalid:
             logging.warning("Interact the Bot to your Log Group Now")
-            pass
         logging.info("Started the pyrogram.Client")
         logging.info("Idling the pyrogram.Client")
         pyrogram.idle()
@@ -113,7 +112,6 @@ class tgClient(Methods, Scaffold):
         except pyrogram.errors.exceptions.bad_request_400.PeerIdInvalid:
             logging.warning(
                 "Unable to Send Message to Log Group, Please Interact Bot with the Log Group while Running")
-            pass
         logging.info("Stopping the pyrogram.Client")
         self.__client__.stop()
         logging.info("Stopped the pyrogram.Client")
@@ -149,12 +147,9 @@ class tgClient(Methods, Scaffold):
                         Config.LOGS, "pyrogram.Client Started") if Config.LOGS else None
                 except pyrogram.errors.exceptions.bad_request_400.PeerIdInvalid:
                     logging.warning("Interact the Bot to your Log Group Now")
-                    pass
                 logging.info(f"Started the {client}")
         except pyrogram.errors.exceptions.bad_request_400.PeerIdInvalid:
             logging.warning("Interact with your Log Group Now")
-            pass
-
         logging.info("Idling the pyrogram.Client")
         pyrogram.idle()
 
@@ -167,6 +162,4 @@ class tgClient(Methods, Scaffold):
             except:
                 logging.warning(
                     "Unable to Send Message to Log Group, Please Interact Bot with the Log Group while Running")
-                pass
-
             clients.__client__.stop()

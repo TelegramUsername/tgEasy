@@ -58,26 +58,18 @@ async def get_user(m: typing.Union[pyrogram.types.Message, pyrogram.types.Callba
             return False
         return await client.get_users(message.reply_to_message.from_user.id)
 
-    if len(message.command) > 1:
-        command = message.command[1]
-    else:
-        command = None
-
-    if command:
-        if command.startswith("@") or command.isdigit():
-            try:
-                return await client.get_users(message.command[1])
-            except pyrogram.errors.exceptions.bad_request_400.UsernameNotOccupied:
-                pass
-            except pyrogram.errors.exceptions.bad_request_400.UsernameInvalid:
-                pass
-            except pyrogram.errors.exceptions.bad_request_400.PeerIdInvalid:
-                pass
-            except IndexError:
-                pass
-    else:
-        pass
-
+    command = message.command[1] if len(message.command) > 1 else None
+    if command and (command.startswith("@") or command.isdigit()):
+        try:
+            return await client.get_users(message.command[1])
+        except pyrogram.errors.exceptions.bad_request_400.UsernameNotOccupied:
+            pass
+        except pyrogram.errors.exceptions.bad_request_400.UsernameInvalid:
+            pass
+        except pyrogram.errors.exceptions.bad_request_400.PeerIdInvalid:
+            pass
+        except IndexError:
+            pass
     if message.entities:
         for mention in message.entities:
             if mention.type == "text_mention":
@@ -169,7 +161,7 @@ async def send_typing(m: typing.Union[pyrogram.types.Message, pyrogram.types.Cal
         message = m
     if isinstance(m, pyrogram.types.CallbackQuery):
         message = m.message
-    for i in range(3):
+    for _ in range(3):
         return await message._client.send_chat_action(message.chat.id, "typing")
 
 

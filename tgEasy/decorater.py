@@ -85,9 +85,8 @@ class Command(Scaffold):
                 if self_admin:
                     me = await client.get_me()
                     mee = await client.get_chat_member(message.chat.id, me.id)
-                    if not mee.status == "admin":
+                    if mee.status != "admin":
                         return await message.reply_text("I must be admin to execute this Command")
-                    pass
                 if group_only and message.chat.type != "supergroup":
                     return await message.reply_text("This command can be used in supergroups only.")
                 if pm_only and message.chat.type != "private":
@@ -153,9 +152,8 @@ class Callback(Scaffold):
                 if self_admin:
                     me = await client.get_me()
                     mee = await client.get_chat_member(CallbackQuery.chat.id, me.id)
-                    if not mee.status == "admin":
+                    if mee.status != "admin":
                         return await CallbackQuery.message.edit_text("I must be admin to execute this Command")
-                    pass
                 try:
                     await func(client, CallbackQuery)
                 except pyrogram.errors.exceptions.forbidden_403.ChatAdminRequired:
@@ -196,7 +194,7 @@ class AdminsOnly(Scaffold):
         """
         def wrapper(func):
             async def decorator(client, message):
-                if not message.chat.type == "supergroup":
+                if message.chat.type != "supergroup":
                     return await message.reply_text("This command can be used in supergroups only.")
                 if message.sender_chat and not TRUST_ANON_ADMINS:
                     return await message.reply_text(
